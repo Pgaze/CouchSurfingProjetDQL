@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.directory.InvalidAttributeValueException;
-
 import modele.Data;
 import modele.Logement;
 import modele.Offre;
@@ -90,11 +88,6 @@ public class FormulaireRechercheAnnonce {
 		return result;
 	}
 
-	/**
-	 * @param dateSpecifiee
-	 * @return offre auxquelles des gens ont postulées
-	 * @throws Exception
-	 */
 	private List<Offre> getOffreAvecPostulation(boolean dateSpecifiee) throws Exception {
 		List<Offre> result = new ArrayList<Offre>();
 		List<Offre> resultAccepte = getRestes(getOffreValideesCompactees(dateSpecifiee));
@@ -107,7 +100,7 @@ public class FormulaireRechercheAnnonce {
 
 	/**
 	 * @param dateSpecifiee (si des dates ont ete specifiees pour la recherche)
-	 * @return la liste des offres validees par l'hote des logements
+	 * @return la liste des offres validees
 	 * @throws Exception
 	 */
 	private List<Offre> getOffreValidees(boolean dateSpecifiee) throws Exception{
@@ -137,7 +130,7 @@ public class FormulaireRechercheAnnonce {
 
 	/**
 	 * @param dateSpecifiee (si des dates ont ete specifiees pour la recherche)
-	 * @return la liste des plages de dates bloquees par les offres validees, apres compactage (V-W ; X-Y ; Y-Z => V-W ; X-Z)
+	 * @return la liste des plages de dates bloquees par les offres validees, apres compactage
 	 * @throws Exception
 	 */
 	private List<Offre> getOffreValideesCompactees(boolean dateSpecifiee) throws Exception {		
@@ -169,7 +162,7 @@ public class FormulaireRechercheAnnonce {
 		return resultAccepteReste;
 	}
 
-	/** Minus : plage totale de date auquelles le logement est proposé - les palges occupées par des postulations validées par les hote
+	/**
 	 * @param offreValideesCompactees 
 	 * @return liste des possibilites de postulation en ne considerant que les restes laisses par les offres aceptees
 	 * @throws Exception
@@ -188,35 +181,39 @@ public class FormulaireRechercheAnnonce {
 					result.remove(result.size()-1);
 				}
 			}
+			
 			//il y a un reste avant la demande
 			if(nouveauLogement.getDateDebut().compareTo(offre.getDateDebut()) < 0 ){
+				//date moins un jour
+				Date dateModif = offre.getDateDebut();
+				int[] tabDate = CustomDate.splitDate(dateModif.toString());
+				dateModif = Date.valueOf(CustomDate.creerStringDate(tabDate[0],tabDate[1],tabDate[2]-1));
 				//ajout de la plage libre
 				Utilisateur u=Utilisateur.getUtilisateurByIdLogement(nouveauLogement.getIdLogement());
-				result.add(new Offre(nouveauLogement,u,nouveauLogement.getDateDebut(),datePlusMoinsUnJour(offre.getDateDebut(),false)));
+				result.add(new Offre(nouveauLogement,u,nouveauLogement.getDateDebut(),dateModif));
+				
+				//date plus un jour
+				dateModif = offre.getDateFin();
+				tabDate = CustomDate.splitDate(dateModif.toString());
+				dateModif = Date.valueOf(CustomDate.creerStringDate(tabDate[0],tabDate[1],tabDate[2]+1));
 				//maj du debut logement libre
-				nouveauLogement.setDateDebutFin(datePlusMoinsUnJour(offre.getDateFin(),true), nouveauLogement.getDateFin());
+				nouveauLogement.setDateDebutFin(dateModif, nouveauLogement.getDateFin());
 			}
 			//il y a un reste apres la demande
 			if(nouveauLogement.getDateFin().compareTo(offre.getDateFin()) > 0 ){
+				//date plus un jour
+				Date dateModif = offre.getDateFin();
+				int[] tabDate = CustomDate.splitDate(dateModif.toString());
+				dateModif = Date.valueOf(CustomDate.creerStringDate(tabDate[0],tabDate[1],tabDate[2]+1));
 				//maj du logment => il restera que la partie de droite (voir ci dessus)
-				nouveauLogement.setDateDebutFin(datePlusMoinsUnJour(offre.getDateFin(),true),nouveauLogement.getDateFin());
+				nouveauLogement.setDateDebutFin(dateModif,nouveauLogement.getDateFin());
+				//attention, date début a été mis ajour
 				//ajout du logement
 				Utilisateur u=Utilisateur.getUtilisateurByIdLogement(nouveauLogement.getIdLogement());
 				result.add(new Offre(nouveauLogement,u,nouveauLogement.getDateDebut(),nouveauLogement.getDateFin()));
 			}
 		}
 		return result;
-	}
-	
-	/**
-	 * @param date
-	 * @param plus
-	 * @return date if true {date +1j}else{date -1j}
-	 * @throws InvalidAttributeValueException
-	 */
-	private static Date datePlusMoinsUnJour(Date date, boolean plus) throws InvalidAttributeValueException {
-		int[] tabDate = CustomDate.splitDate(date.toString());
-		return Date.valueOf(CustomDate.creerStringDate(tabDate[0],tabDate[1],tabDate[2]+(plus ? 1 : -1)));
 	}
 	
 	/** 
@@ -229,6 +226,7 @@ public class FormulaireRechercheAnnonce {
 		
 		String strReq = ""
 				+ "SELECT Postule.IdLogement,Postule.IdUtilisateur "
+				//Pourquoi utiliser la table utilisateur???
 				+ "FROM Logement,Postule "
 				+ "WHERE Postule.IdLogement = Logement.IdLogement "
 				+ "AND Logement.ville = ? "

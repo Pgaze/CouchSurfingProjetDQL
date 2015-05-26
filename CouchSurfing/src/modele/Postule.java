@@ -15,6 +15,7 @@ public class Postule {
 	private int status;
 	private String dateDebut;
 	private String dateFin;
+	private String dateValidite;
 	
 	public Postule(Utilisateur postulant, Utilisateur hebergeur, Logement logement) {
 		super();

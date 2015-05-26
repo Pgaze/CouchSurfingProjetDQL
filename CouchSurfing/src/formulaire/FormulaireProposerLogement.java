@@ -46,11 +46,6 @@ public class FormulaireProposerLogement {
 		this.setUser(user);
 	}
 	
-	/** Set start and end of logement offering
-	 * @param dateDebut
-	 * @param dateFin
-	 * @throws InvalidAttributeValueException
-	 */
 	public void setDateDebutFin(Date dateDebut,Date dateFin) throws InvalidAttributeValueException {
 		CustomDate.checkIntegriteDates(dateDebut, dateFin);
 		this.dateDebut = dateDebut;
@@ -60,55 +55,42 @@ public class FormulaireProposerLogement {
 	public String getBatimentEscalier() {
 		return batimentEscalier;
 	}
-	
 	public void setBatimentEscalier(String batimentEscalier) {
 		this.batimentEscalier = batimentEscalier;
 	}
-	
 	public String getNumeroEtVoie() {
 		return numeroEtVoie;
 	}
-	
 	public void setNumeroEtVoie(String numeroEtVoie) {
 		this.numeroEtVoie = numeroEtVoie;
 	}
-	
 	public String getCp() {
 		return cp;
 	}
-	
 	public void setCp(String cp) {
 		this.cp = cp;
 	}
-	
 	public String getResidence() {
 		return residence;
 	}
-	
 	public void setResidence(String residence) {
 		this.residence = residence;
 	}
-	
 	public String getComplementAdresse() {
 		return complementAdresse;
 	}
-	
 	public void setComplementAdresse(String complementAdresse) {
 		this.complementAdresse = complementAdresse;
 	}
-	
 	public String getVille() {
 		return ville;
 	}
-	
 	public void setVille(String ville) {
 		this.ville = ville;
 	}
-	
 	public Utilisateur getUser() {
 		return user;
 	}
-	
 	public void setUser(Utilisateur user) {
 		this.user = user;
 	}
@@ -141,13 +123,6 @@ public class FormulaireProposerLogement {
 		return result;
 	}
 	
-	/** Specify the date for the selected logement (it already exist but with null date)
-	 * @param dateD
-	 * @param dateF
-	 * @throws InvalidAttributeValueException
-	 * @throws javax.management.InvalidAttributeValueException
-	 * @throws SQLException
-	 */
 	public void procedureSpecDateLogement(Date dateD, Date dateF) throws InvalidAttributeValueException, javax.management.InvalidAttributeValueException, SQLException{
 		Logement logement = getLogement();
 		this.setDateDebutFin(dateD, dateF);

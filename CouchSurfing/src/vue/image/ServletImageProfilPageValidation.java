@@ -14,10 +14,11 @@ import modele.Postule;
 @WebServlet("/ServletImageProfilPageValidation")
 public class ServletImageProfilPageValidation extends ServletImage {
 
+	private static final long serialVersionUID = 8104276701972932162L;
+
 	public ServletImageProfilPageValidation() {
 		super();
 	}
-	
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -42,7 +43,4 @@ public class ServletImageProfilPageValidation extends ServletImage {
 			e.printStackTrace();
 		}
 	}
-	
-	
-
 }

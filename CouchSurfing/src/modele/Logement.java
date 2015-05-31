@@ -31,15 +31,14 @@ public class Logement {
 		this.setAdresse(adresse);
 		this.lesCriteres = new ArrayList<Critere>();
 	}
-
+	
 	public Logement() {
 		this.lesCriteres = new ArrayList<Critere>();
 	}
 
-
 	public boolean insererDansLaBase() throws SQLException{
 		String sql = "insert into Logement (BatimentEscalier,NumeroEtVoie,CodePostal,Residence,ComplementAdresse,Ville)"
-				+ "values (?,?,?,?,?,?)";
+					+ "values (?,?,?,?,?,?)";
 		PreparedStatement insert= Data.BDD_Connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 		insert.setString(1, this.adresse.getBatimentEscalier());
 		insert.setString(2,this.adresse.getNumeroEtVoie());
@@ -57,6 +56,33 @@ public class Logement {
 		return false;
 	}
 
+	public int getIdLogement() {
+		return idLogement;
+	}
+
+	public void setIdLogement(int idLogement) {
+		this.idLogement = idLogement;
+	}
+
+	public Adresse getAdresse() {
+		return adresse;
+	}
+	
+	public Date getDateDebut() {
+		return dateDebut;
+	}
+
+	public Date getDateFin() {
+		return dateFin;
+	}
+
+	public List<Critere> getLesCriteres() {
+		return lesCriteres;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
+	}
 
 	/**
 	 * @param idLogement
@@ -81,8 +107,7 @@ public class Logement {
 			result.dateDebut = dateDebut;
 			result.dateFin = dateFin;
 			result.setIdLogement(idLogement);
-			Object temp = rs.getObject("ListCriteres");
-			List<Critere> listCritere = (List<Critere>)temp;
+			List<Critere> listCritere = ((List<Critere>) rs.getObject("ListCriteres"));
 			if(listCritere!=null){
 				result.lesCriteres = listCritere;
 			}
@@ -92,12 +117,11 @@ public class Logement {
 		}
 		return result;
 	}
-
-
+	
 	public void addCritere(Critere crit){
 		this.lesCriteres.add(crit);
 	}
-
+	
 	public void removeCritere(TypeCritere critType){
 		for (int i=0;i<this.lesCriteres.size();i++){
 			if(this.lesCriteres.get(i).getType()==critType){
@@ -106,7 +130,7 @@ public class Logement {
 			}
 		}
 	}
-
+	
 	public void setCritereValue(Critere crit){
 		for (int i=0;i<this.lesCriteres.size();i++){
 			if(this.lesCriteres.get(i).getType()==crit.getType()){
@@ -125,7 +149,7 @@ public class Logement {
 		}
 		return result;
 	}
-
+	
 	public int getIdPhotoLogement() throws SQLException{
 		String sql = "SELECT IdImageLogement FROM Logement where IdLogement=?";
 		PreparedStatement select = Data.BDD_Connection.prepareStatement(sql);
@@ -152,7 +176,11 @@ public class Logement {
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 	}
-
+	
+	/** Set the date of the proposed logement to null (meaning it's unavailable)
+	 * @return state of succes
+	 * @throws SQLException
+	 */
 	public boolean setDateToNull() throws SQLException{
 		String sql= "UPDATE Logement set DateDebut=? AND DateFin=? WHERE IdLogement=?";
 		PreparedStatement update=Data.BDD_Connection.prepareStatement(sql);
@@ -161,7 +189,12 @@ public class Logement {
 		update.setInt(3, this.idLogement);
 		return update.executeUpdate()==1;
 	}
-
+	
+	/** Update the current date in the DB with the one in the object
+	 * @return state of success
+	 * @throws SQLException
+	 * @throws javax.management.InvalidAttributeValueException
+	 */
 	public boolean updateDates() throws SQLException, javax.management.InvalidAttributeValueException {
 		if(this.dateDebut== null || this.dateFin==null){
 			throw new javax.management.InvalidAttributeValueException("DateDebut ou DateFin n'a pas ete initialise ");
@@ -173,7 +206,11 @@ public class Logement {
 		update.setInt(3, this.idLogement);
 		return update.executeUpdate() ==1;
 	}	
-
+	
+	/** Update the criteria list in the DB with the one in the object
+	 * @return state of success
+	 * @throws SQLException
+	 */
 	public boolean updateListCritere() throws SQLException{
 		String sql= "update Logement set ListCriteres=? where IdLogement=?";
 		PreparedStatement update = Data.BDD_Connection.prepareStatement(sql);
@@ -182,6 +219,11 @@ public class Logement {
 		return update.executeUpdate() ==1;
 	}
 
+	/** Remove the logement from DB
+	 * @param idLogement
+	 * @return state of success
+	 * @throws SQLException
+	 */
 	public static boolean deleteFromBase(int idLogement) throws SQLException {
 		String sql="delete from Logement where IdLogement=?";
 		PreparedStatement delete = Data.BDD_Connection.prepareStatement(sql);
@@ -189,33 +231,5 @@ public class Logement {
 		return delete.executeUpdate()==1;
 	}
 
-	public int getIdLogement() {
-		return idLogement;
-	}
-
-	public void setIdLogement(int idLogement) {
-		this.idLogement = idLogement;
-	}
-
-	public Adresse getAdresse() {
-		return adresse;
-	}
-
-	public Date getDateDebut() {
-		return dateDebut;
-	}
-
-	public Date getDateFin() {
-		return dateFin;
-	}
-
-	public List<Critere> getLesCriteres() {
-		return lesCriteres;
-	}
-
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
-	}
-
-
+	
 }

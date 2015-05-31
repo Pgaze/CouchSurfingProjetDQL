@@ -23,7 +23,8 @@ public class FormulaireRechercheAnnonce {
 		this.setDateDebut(dateDebut);
 		this.setDateFin(dateFin);
 	}
-	
+
+
 	/**
 	 * @return liste des offres pour une ville donnee
 	 * @throws Exception
@@ -238,8 +239,7 @@ public class FormulaireRechercheAnnonce {
 		
 		return result;
 	}
-
-
+	
 	public String getDateDebut() {
 		return dateDebut;
 	}

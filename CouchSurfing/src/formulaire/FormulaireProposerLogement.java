@@ -46,24 +46,19 @@ public class FormulaireProposerLogement {
 	public String procedureAjoutLogement() throws SQLException{
 		String result="";
 		Logement l = this.getLogement();
-
 		if(this.user.aUnLogement()){
 			Logement.deleteFromBase(user.getIdLogement());
 		}
-		
 		boolean resultatInsertionLogement = l.insererDansLaBase();
-		
 		PreparedStatement update = Data.BDD_Connection.prepareStatement("UPDATE Utilisateur SET IdLogement=? WHERE IdUtilisateur=?");
 		update.setInt(1, l.getIdLogement());
 		update.setInt(2, this.getUser().getIdUser());
-		
 		int res = update.executeUpdate();
-		
 		if (res==1 && resultatInsertionLogement){
 			user.setIdLogement(l.getIdLogement());
-			result="Logement ajouté";
+			result="Logement ajoute";
 		}else{
-			result="Echec création logement";
+			result="Echec cr�ation logement";
 		}
 		return result;
 	}

@@ -41,6 +41,7 @@ public class ServletImageProfilPageValidation extends ServletImage {
 			response.setContentLength(img.length);
 			response.getOutputStream().write(img);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

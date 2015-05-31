@@ -55,10 +55,6 @@ public class FormulaireInscription {
 		return mailATester.matches("^[a-zA-Z0-9]+[\\.]*[a-zA-Z0-9]*+(@){1}[a-z]+(\\.){1}([a-z]{2,4})");
 	}
 
-	/**
-	 * @param motDePasseATester
-	 * @return status
-	 */
 	public boolean testMotDePasseValide(String motDePasseATester) {
 		boolean contientMaj =motDePasseATester.matches(".*[A-Z].*");
 		boolean contientMin =motDePasseATester.matches(".*[a-z].*");
@@ -73,31 +69,41 @@ public class FormulaireInscription {
 		this.setRetourInfos(this.pseudo);
 		this.setRetourInfos(this.tel);	
 
-			if(!this.testMailValide(this.mail)){
-				return "Adresse mail invalide";
-			}
-			else if (this.testUtilisateurExistant(this.mail)){	
-				return "Utilisateur existant";
-			}
-			else if(!this.testMotDePasseValide(mdp)){
-				this.setRetourInfos(this.mail);
-				return "Mot de passe invalide";
-			}
-			else if(!this.confirmMdp.contentEquals(this.mdp)){
-				return "Probleme confirmation mot de passe";
-			}
-			else if (!this.testTelValide(tel)){
-				return "Numero de téléphone invalide";
-			}
-			else{
-				this.getUtilisateur().insererDansLaBase();
-				Data.BDD_Connection.commit();
-				//String s= "Bienvenue sur machin";
-				//GestionMail.send("clicknsleep@gmail.com", this.getUtilisateur().getMail(), "Inscription à ClickAndSleep.co.uk réussie", s);
-				//GestionMail.send(this.getUtilisateur().getMail(),"clicknsleep@gmail.com" , "Nouvelle inscription sur le site", this.getUtilisateur().getFirstName()+" "+this.getUtilisateur().getName() +"s'est inscrit");
-				return "Inscription reussie";
-			}
+		if(!this.testMailValide(this.mail)){
+			return "Adresse mail invalide";
+		}
+		else if (this.testUtilisateurExistant(this.mail)){	
+			return "Utilisateur existant";
+		}
+		else if(!this.testMotDePasseValide(mdp)){
+			this.setRetourInfos(this.mail);
+			return "Mot de passe invalide";
+		}
+		else if(!this.confirmMdp.contentEquals(this.mdp)){
+			return "Probleme confirmation mot de passe";
+		}
+		else if (!this.testTelValide(tel)){
+			return "Numero de téléphone invalide";
+		}
+		else{
+			this.getUtilisateur().insererDansLaBase();
+			Data.BDD_Connection.commit();
+			/**
+			 * L'utilisateur est censé recevoir un mail lors de son inscription
+			 * Comme nous ne pouvions pas tester cette feature dans la salle Rubis,
+			 * nous n'avons pas pousse plus loin son implémentation.
+			 */
+			//String s= "Bienvenue sur CouchSurfing";
+			//GestionMail.send("clicknsleep@gmail.com", this.getUtilisateur().getMail(), "Inscription à ClickAndSleep.co.uk réussie", s);
+			//GestionMail.send(this.getUtilisateur().getMail(),"clicknsleep@gmail.com" , "Nouvelle inscription sur le site", this.getUtilisateur().getFirstName()+" "+this.getUtilisateur().getName() +"s'est inscrit");
+			return "Inscription reussie";
+		}
 	}
+	
+	private Utilisateur getUtilisateur() throws SQLException {
+		return new Utilisateur(this.mail, this.mdp, this.nom, this.prenom, this.pseudo,this.tel);
+	}
+
 
 	
 	
@@ -145,11 +151,6 @@ public class FormulaireInscription {
 		return retourInfos;
 	}
 
-
-	private Utilisateur getUtilisateur() throws SQLException {
-		return new Utilisateur(this.mail, this.mdp, this.nom, this.prenom, this.pseudo,this.tel);
-	}
-
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
@@ -180,5 +181,5 @@ public class FormulaireInscription {
 
 	public void setRetourInfos(String info) {
 		this.retourInfos.add(info);
-	}	
+	}
 }

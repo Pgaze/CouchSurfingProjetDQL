@@ -24,7 +24,6 @@ public class PageValidation extends SuperServlet {
 	 */
 	public PageValidation() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

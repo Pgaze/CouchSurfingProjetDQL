@@ -12,6 +12,7 @@ import vue.SuperServlet;
 
 public class ServletImage extends SuperServlet {
 	
+	private static final long serialVersionUID = 3438939000178039026L;
 	protected String name;
 	protected String type;
 

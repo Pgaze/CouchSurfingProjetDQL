@@ -39,9 +39,6 @@ public class Accueil extends SuperServlet {
 			catch(SQLException e){
 				this.request.setAttribute("errorMessage",e.getMessage());
 				this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(this.request, this.response);
-				//this.request.setAttribute("errorMessage",e.getMessage());
-				//this.response.sendRedirect("erreur");
-
 			}
 		}
 		if (super.getUtilisateurInSession() == null ) {
@@ -80,8 +77,6 @@ public class Accueil extends SuperServlet {
 		catch(Exception e){
 			this.request.setAttribute("errorMessage",e.getMessage());
 			this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(this.request, this.response);
-			//this.request.setAttribute("errorMessage",e.getMessage());
-			//this.response.sendRedirect("erreur");
 		}
 	}
 

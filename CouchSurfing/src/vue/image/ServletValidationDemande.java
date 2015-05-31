@@ -24,7 +24,7 @@ public class ServletValidationDemande extends ServletImage {
         this.type = "png";
     }
 
-	/*
+	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@Override

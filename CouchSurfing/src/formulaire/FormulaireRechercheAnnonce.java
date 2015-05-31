@@ -23,23 +23,7 @@ public class FormulaireRechercheAnnonce {
 		this.setDateDebut(dateDebut);
 		this.setDateFin(dateFin);
 	}
-
-	public String getDateDebut() {
-		return dateDebut;
-	}
-
-	public void setDateDebut(String dateDebut) {
-		this.dateDebut = CustomDate.checkFormatDate(dateDebut);
-	}
-
-	public String getDateFin() {
-		return dateFin;
-	}
-
-	public void setDateFin(String dateFin) {
-		this.dateFin = CustomDate.checkFormatDate(dateFin);
-	}
-
+	
 	/**
 	 * @return liste des offres pour une ville donnee
 	 * @throws Exception
@@ -175,8 +159,8 @@ public class FormulaireRechercheAnnonce {
 			if(result.isEmpty()){
 				nouveauLogement = Logement.getLogementById(offre.getLogement().getIdLogement());
 			}else{
-				//le dernier bout a été ajouté par défaut a la passe précédante
-				//si on a pas changé de logement, on supprime ce "bout", pour le corriger
+				//le dernier bout a ï¿½tï¿½ ajoutï¿½ par dï¿½faut a la passe prï¿½cï¿½dante
+				//si on a pas changï¿½ de logement, on supprime ce "bout", pour le corriger
 				if(offre.getLogement().getIdLogement() == nouveauLogement.getIdLogement()){
 					result.remove(result.size()-1);
 				}
@@ -207,7 +191,7 @@ public class FormulaireRechercheAnnonce {
 				dateModif = Date.valueOf(CustomDate.creerStringDate(tabDate[0],tabDate[1],tabDate[2]+1));
 				//maj du logment => il restera que la partie de droite (voir ci dessus)
 				nouveauLogement.setDateDebutFin(dateModif,nouveauLogement.getDateFin());
-				//attention, date début a été mis ajour
+				//attention, date dï¿½but a ï¿½tï¿½ mis ajour
 				//ajout du logement
 				Utilisateur u=Utilisateur.getUtilisateurByIdLogement(nouveauLogement.getIdLogement());
 				result.add(new Offre(nouveauLogement,u,nouveauLogement.getDateDebut(),nouveauLogement.getDateFin()));
@@ -254,4 +238,22 @@ public class FormulaireRechercheAnnonce {
 		
 		return result;
 	}
+
+
+	public String getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(String dateDebut) {
+		this.dateDebut = CustomDate.checkFormatDate(dateDebut);
+	}
+
+	public String getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(String dateFin) {
+		this.dateFin = CustomDate.checkFormatDate(dateFin);
+	}
+
 }

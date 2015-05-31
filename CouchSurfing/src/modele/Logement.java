@@ -31,36 +31,15 @@ public class Logement {
 		this.setAdresse(adresse);
 		this.lesCriteres = new ArrayList<Critere>();
 	}
-	
+
 	public Logement() {
 		this.lesCriteres = new ArrayList<Critere>();
 	}
 
-/*	private void setId() throws SQLException {
-		PreparedStatement select=Data.BDD_Connection.prepareStatement("SELECT IdLogement FROM Logement WHERE"
-				+ " BatimentEscalier=? AND NumeroEtVoie=? AND CodePostal=? AND Residence=? "
-				+ "AND ComplementAdresse=? AND Ville=?");
-		select.setString(1, this.adresse.getBatimentEscalier());
-		select.setString(2,this.adresse.getNumeroEtVoie());
-		select.setString(3, this.adresse.getCp());
-		select.setString(4, this.adresse.getResidence());
-		select.setString(5, this.adresse.getComplementAdresse());
-		select.setString(6,this.adresse.getVille());
-		ResultSet resultSelect=select.executeQuery();
-		if(resultSelect.next()){
-			this.idLogement=resultSelect.getInt(1);
-		}else{	
-			Statement getMax=Data.BDD_Connection.createStatement();
-			ResultSet resultMax=getMax.executeQuery("SELECT MAX(IdLogement) FROM Logement ");
-			resultMax.next();
-			this.idLogement=resultMax.getInt(1)+1;
-		}
-
-	}*/
 
 	public boolean insererDansLaBase() throws SQLException{
 		String sql = "insert into Logement (BatimentEscalier,NumeroEtVoie,CodePostal,Residence,ComplementAdresse,Ville)"
-					+ "values (?,?,?,?,?,?)";
+				+ "values (?,?,?,?,?,?)";
 		PreparedStatement insert= Data.BDD_Connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 		insert.setString(1, this.adresse.getBatimentEscalier());
 		insert.setString(2,this.adresse.getNumeroEtVoie());
@@ -78,33 +57,6 @@ public class Logement {
 		return false;
 	}
 
-	public int getIdLogement() {
-		return idLogement;
-	}
-
-	public void setIdLogement(int idLogement) {
-		this.idLogement = idLogement;
-	}
-
-	public Adresse getAdresse() {
-		return adresse;
-	}
-	
-	public Date getDateDebut() {
-		return dateDebut;
-	}
-
-	public Date getDateFin() {
-		return dateFin;
-	}
-
-	public List<Critere> getLesCriteres() {
-		return lesCriteres;
-	}
-
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
-	}
 
 	/**
 	 * @param idLogement
@@ -140,12 +92,12 @@ public class Logement {
 		}
 		return result;
 	}
-	
-	
+
+
 	public void addCritere(Critere crit){
 		this.lesCriteres.add(crit);
 	}
-	
+
 	public void removeCritere(TypeCritere critType){
 		for (int i=0;i<this.lesCriteres.size();i++){
 			if(this.lesCriteres.get(i).getType()==critType){
@@ -154,7 +106,7 @@ public class Logement {
 			}
 		}
 	}
-	
+
 	public void setCritereValue(Critere crit){
 		for (int i=0;i<this.lesCriteres.size();i++){
 			if(this.lesCriteres.get(i).getType()==crit.getType()){
@@ -173,7 +125,7 @@ public class Logement {
 		}
 		return result;
 	}
-	
+
 	public int getIdPhotoLogement() throws SQLException{
 		String sql = "SELECT IdImageLogement FROM Logement where IdLogement=?";
 		PreparedStatement select = Data.BDD_Connection.prepareStatement(sql);
@@ -200,7 +152,7 @@ public class Logement {
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 	}
-	
+
 	public boolean setDateToNull() throws SQLException{
 		String sql= "UPDATE Logement set DateDebut=? AND DateFin=? WHERE IdLogement=?";
 		PreparedStatement update=Data.BDD_Connection.prepareStatement(sql);
@@ -209,7 +161,7 @@ public class Logement {
 		update.setInt(3, this.idLogement);
 		return update.executeUpdate()==1;
 	}
-	
+
 	public boolean updateDates() throws SQLException, javax.management.InvalidAttributeValueException {
 		if(this.dateDebut== null || this.dateFin==null){
 			throw new javax.management.InvalidAttributeValueException("DateDebut ou DateFin n'a pas ete initialise ");
@@ -221,7 +173,7 @@ public class Logement {
 		update.setInt(3, this.idLogement);
 		return update.executeUpdate() ==1;
 	}	
-	
+
 	public boolean updateListCritere() throws SQLException{
 		String sql= "update Logement set ListCriteres=? where IdLogement=?";
 		PreparedStatement update = Data.BDD_Connection.prepareStatement(sql);
@@ -237,5 +189,33 @@ public class Logement {
 		return delete.executeUpdate()==1;
 	}
 
-	
+	public int getIdLogement() {
+		return idLogement;
+	}
+
+	public void setIdLogement(int idLogement) {
+		this.idLogement = idLogement;
+	}
+
+	public Adresse getAdresse() {
+		return adresse;
+	}
+
+	public Date getDateDebut() {
+		return dateDebut;
+	}
+
+	public Date getDateFin() {
+		return dateFin;
+	}
+
+	public List<Critere> getLesCriteres() {
+		return lesCriteres;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
+	}
+
+
 }

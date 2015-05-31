@@ -14,6 +14,9 @@ import modele.Postule;
 @WebServlet("/ServletImageProfilPageValidation")
 public class ServletImageProfilPageValidation extends ServletImage {
 
+	private static final long serialVersionUID = 8104276701972932162L;
+
+
 	public ServletImageProfilPageValidation() {
 		super();
 	}
@@ -38,7 +41,6 @@ public class ServletImageProfilPageValidation extends ServletImage {
 			response.setContentLength(img.length);
 			response.getOutputStream().write(img);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

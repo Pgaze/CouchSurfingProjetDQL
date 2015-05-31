@@ -30,6 +30,8 @@ public class ConnectionMySQL {
 	}
 
 	/**
+	 * Cette fonction permet de switcher automatiquement entre la BDD de test
+	 * et la BDD de prod.
 	 * @param inTest=true <=> BDD TEST, BDD normale sinon
 	 * @throws SQLException 
 	 */

@@ -18,6 +18,16 @@ public class FormulaireConnexion {
 		this.login = login;
 		this.mdp = mdp;
 	}
+	
+	public FormulaireConnexion() {}
+
+	public boolean verificationCoupleMailMotDePasse() throws SQLException{
+		Utilisateur user = Utilisateur.getUtilisateurParMail(this.getLogin());
+		if(user!=null){
+			return user.getPassword().contentEquals(Password.encrypt(this.getMdp()));
+		}
+		return false;
+	}
 
 	public String getLogin() {
 		return login;
@@ -33,19 +43,5 @@ public class FormulaireConnexion {
 
 	public void setMdp(String mdp) {
 		this.mdp = mdp;
-	}
-
-	public FormulaireConnexion() {}
-
-	/**
-	 * @return status de validité
-	 * @throws SQLException
-	 */
-	public boolean verificationCoupleMailMotDePasse() throws SQLException{
-		Utilisateur user = Utilisateur.getUtilisateurParMail(this.getLogin());
-		if(user!=null){
-			return user.getPassword().contentEquals(Password.encrypt(this.getMdp()));
-		}
-		return false;
 	}
 }

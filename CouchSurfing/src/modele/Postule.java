@@ -15,7 +15,6 @@ public class Postule {
 	private int status;
 	private String dateDebut;
 	private String dateFin;
-	private String dateValidite;
 	
 	public Postule(Utilisateur postulant, Utilisateur hebergeur, Logement logement) {
 		super();
@@ -24,20 +23,6 @@ public class Postule {
 		this.logement = logement;
 		this.status = 2;
 	}
-	
-	
-
-	public void setDateDebut(String dateDebut) {
-		this.dateDebut = dateDebut;
-	}
-
-
-
-	public void setDateFin(String dateFin) {
-		this.dateFin = dateFin;
-	}
-
-
 
 	/**
 	 * @return Liste des Postulation de l'utilisateur qui sont encore valides
@@ -64,21 +49,11 @@ public class Postule {
 		return tablePostulation;
 	}
 	
-	/*public static ArrayList<Integer> deletePostulationsPerimees() throws SQLException{
-		ArrayList<Integer> table = getPostulationsPerimees();
-		//suppresion
-		PreparedStatement delete = Data.BDD_Connection.prepareStatement("DELETE FROM Postule WHERE DateInvalidite < CURDATE()");
-		delete.executeUpdate();
-		return table;
-	}*/
-	
-	
 	/**
 	 * @return element supprimé
 	 * @throws SQLException
 	 */
 	public static void deletePostulationByIdLogement(int idLogement) throws SQLException{
-		//suppresion
 		PreparedStatement delete = Data.BDD_Connection.prepareStatement("DELETE FROM Postule WHERE IdLogement=?");
 		delete.setInt(1, idLogement);
 		delete.executeUpdate();
@@ -104,25 +79,11 @@ public class Postule {
 		return ps.executeUpdate() == 1;
 	}
 
-	public Utilisateur getPostulant() {
-		return postulant;
-	}
-
-	public Utilisateur getHebergeur() {
-		return hebergeur;
-	}
-
-	public Logement getLogement() {
-		return logement;
-	}
-	
-	public int getStatus() {
-		return status;
-	}
-	
 	public String getAffichagePlage(){
 		return "Du "+this.dateDebut +" au "+this.dateFin;
 	}
+	
+	
 
 	public static List<Postule> getDemandeRecuByUser(Utilisateur user) throws Exception {
 		List<Postule> result = new ArrayList<Postule>();
@@ -169,4 +130,29 @@ public class Postule {
 		update.setInt(3, this.logement.getIdLogement());
 		return update.executeUpdate() ==1;
 	}
+
+	public Utilisateur getPostulant() {
+		return postulant;
+	}
+
+	public Utilisateur getHebergeur() {
+		return hebergeur;
+	}
+
+	public Logement getLogement() {
+		return logement;
+	}
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setDateDebut(String dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
+	public void setDateFin(String dateFin) {
+		this.dateFin = dateFin;
+	}
+	
 }

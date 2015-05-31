@@ -89,8 +89,6 @@ public class Profil extends SuperServlet {
 		} catch (Exception e) {
 			this.request.setAttribute("errorMessage",e.getMessage());
 			this.getServletContext().getRequestDispatcher("/WEB-INF/erreur.jsp").forward(this.request, this.response);
-			//this.request.setAttribute("errorMessage",e.getMessage());
-			//this.response.sendRedirect("erreur");
 
 		}
 

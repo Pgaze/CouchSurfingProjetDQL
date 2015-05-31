@@ -39,7 +39,6 @@ public class FormulaireCritere {
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 	}
-
 	
 	public void setCritereOnLogement(Logement l) {
 		this.addCritere(l, TypeCritere.ANIMAUX, this.crAnimaux);
@@ -58,14 +57,10 @@ public class FormulaireCritere {
 			l.setDateDebutFin(Date.valueOf(this.dateDebut), Date.valueOf(this.dateFin));	
 		}
 	}
-	
 
 	private void addCritere(Logement l,TypeCritere t, String s) {
 		if(!s.equals("")){
 			l.addCritere(new Critere(t, true, s));
 		}
 	}
-
-	
-	
 }

@@ -107,85 +107,6 @@ public class Utilisateur {
 
 	}
 
-	/**
-	 * @return arrondi de la valeur confort
-	 */
-	public int getAvgConfort(){
-		return Math.round(this.getIndiceConfort());
-	}
-
-	/**
-	 * @return arrondi de la valeur confiance
-	 */
-	public int getAvgConfiance(){
-		return Math.round(this.getIndiceConfiance());
-	}
-
-	
-	
-	public String getTel() {
-		return (this.tel!=null ? this.tel :"Non renseigné");
-	}
-
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
-
-	/**
-	 * @return indice confort
-	 */
-	private float getIndiceConfort() {
-		return indiceConfort;
-	}
-
-	/**
-	 * @param indiceConfort
-	 */
-	private void setIndiceConfort(float indiceConfort) {
-		this.indiceConfort = indiceConfort;
-	}
-
-	/**
-	 * @return indice confiance
-	 */
-	private float getIndiceConfiance() {
-		return indiceConfiance;
-	}
-
-	/**
-	 * @param indiceConfiance
-	 */
-	private void setIndiceConfiance(float indiceConfiance) {
-		this.indiceConfiance = indiceConfiance;
-	}
-
-	/**
-	 * @return nombre de vote effectué pour le confort
-	 */
-	private int getNbVoteConfort() {
-		return nbVoteConfort;
-	}
-
-	/**
-	 * @param nbVoteConfort
-	 */
-	private void setNbVoteConfort(int nbVoteConfort) {
-		this.nbVoteConfort = nbVoteConfort;
-	}
-
-	/**
-	 * @return nombre de vote effectués pour la confiance
-	 */
-	private int getNbVoteConfiance() {
-		return nbVoteConfiance;
-	}
-
-	/**
-	 * @param nbVoteConfiance
-	 */
-	private void setNbVoteConfiance(int nbVoteConfiance) {
-		this.nbVoteConfiance = nbVoteConfiance;
-	}
 
 	/** Effectue un vote confiance
 	 * @param valeurVote
@@ -205,7 +126,7 @@ public class Utilisateur {
 		this.setIndiceConfort((nbVote*this.getIndiceConfort() + valeurVote)/(nbVote+1));
 		this.setNbVoteConfort(nbVote+1);
 	}
-
+	
 	/**
 	 * @return met a jour la base avec l'indice de confort stocké dans l'objet
 	 * @throws SQLException 
@@ -236,105 +157,6 @@ public class Utilisateur {
 		return false;
 	}
 
-	/**
-	 * @return the pseudo
-	 */
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	/**
-	 * @param pseudo the pseudo to set
-	 */
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
-
-	/**
-	 * @return the mail
-	 */
-	public String getMail() {
-		return mail;
-	}
-
-	/**
-	 * @param mail the mail to set
-	 */
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * @return the idUser
-	 */
-	public int getIdUser() {
-		return idUser;
-	}
-
-	@Override
-	public String toString() {
-		return name + " " + firstName  ;
-	}
-
-	/*private void setId() throws SQLException {
-		PreparedStatement select=Data.BDD_Connection.prepareStatement("select IdUtilisateur from Utilisateur where Mail=? and Nom=?");
-		select.setString(1, this.mail);
-		select.setString(2,this.name);
-		ResultSet resultSelect=select.executeQuery();
-		if(resultSelect.next()){
-			this.idUser=resultSelect.getInt(1);
-		}
-		else{	
-			Statement max=Data.BDD_Connection.createStatement();
-			ResultSet resultMax=max.executeQuery("select MAX(IdUtilisateur) from Utilisateur ");
-			resultMax.next();
-			this.idUser=resultMax.getInt(1)+1;
-
-		}
-	}*/
-
 	public boolean insererDansLaBase() throws SQLException{
 		String sql = "insert into Utilisateur (Nom,Prenom,Mail,Pseudo,Mdp,Telephone) values(?,?,?,?,?,?)";
 		PreparedStatement ps=Data.BDD_Connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
@@ -352,14 +174,6 @@ public class Utilisateur {
 		}
 		return false;
 
-	}
-
-	public int getIdLogement() {
-		return idLogement;
-	}
-
-	public void setIdLogement(int theId){
-		this.idLogement=theId;
 	}
 
 	public int getIdPhotoProfil() throws SQLException{
@@ -409,6 +223,109 @@ public class Utilisateur {
 		resultSelect.next();
 		return resultSelect.getInt(1)!=0;
 	}
+
+	public int getIdLogement() {
+		return idLogement;
+	}
+
+	public void setIdLogement(int theId){
+		this.idLogement=theId;
+	}
+
+	public int getAvgConfort(){
+		return Math.round(this.getIndiceConfort());
+	}
+
+	public int getAvgConfiance(){
+		return Math.round(this.getIndiceConfiance());
+	}
 	
-		
+	public String getTel() {
+		return (this.tel!=null ? this.tel :"Non renseigné");
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	private float getIndiceConfort() {
+		return indiceConfort;
+	}
+
+	private void setIndiceConfort(float indiceConfort) {
+		this.indiceConfort = indiceConfort;
+	}
+
+	private float getIndiceConfiance() {
+		return indiceConfiance;
+	}
+
+	private void setIndiceConfiance(float indiceConfiance) {
+		this.indiceConfiance = indiceConfiance;
+	}
+
+	private int getNbVoteConfort() {
+		return nbVoteConfort;
+	}
+
+	private void setNbVoteConfort(int nbVoteConfort) {
+		this.nbVoteConfort = nbVoteConfort;
+	}
+
+	private int getNbVoteConfiance() {
+		return nbVoteConfiance;
+	}
+
+	private void setNbVoteConfiance(int nbVoteConfiance) {
+		this.nbVoteConfiance = nbVoteConfiance;
+	}
+
+	public String getPseudo() {
+		return pseudo;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public int getIdUser() {
+		return idUser;
+	}
+
+	@Override
+	public String toString() {
+		return name + " " + firstName  ;
+	}
 }

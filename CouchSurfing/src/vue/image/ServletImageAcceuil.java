@@ -24,7 +24,7 @@ public class ServletImageAcceuil extends ServletImage {
         this.type = "png";
     }
 
-	/*
+	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@Override
